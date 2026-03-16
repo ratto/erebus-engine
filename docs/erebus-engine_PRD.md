@@ -259,60 +259,7 @@ erebus-engine/
 
 ---
 
-## 8. Plano de Entrega (Sprints)
-
-### Sprint 1: Setup & Infra (1-2 semanas)
-
-- [ ] Repositório GitHub criado e configurado
-- [ ] CMake, estrutura de diretórios e CI/CD funcionando
-- [ ] Interfaces base (ICharacter, ISkill, IEventBus) definidas
-- [ ] Pipeline CI/CD testando 4 targets (Linux, Windows, macOS, WASM)
-
-**DoD:** Build green em todos os targets, repositório público com licença
-
-### Sprint 2: Sistema de Perícias (2-3 semanas)
-
-- [ ] Classe `Skill` e `SkillTest` implementadas
-- [ ] Fórmula de teste do Sistema Daemon funcionando
-- [ ] 150+ perícias em estrutura de dados
-- [ ] Testes unitários com cobertura > 85%
-- [ ] Evento `SkillTested` emitido corretamente
-
-**DoD:** PR review, testes passando, sem warnings de compilação
-
-### Sprint 3: Atributos & Personagem (2-3 semanas)
-
-- [ ] Classe `Attribute` com 8 atributos principais
-- [ ] Fórmula exponencial implementada e testada
-- [ ] Classe `Character` com geração aleatória e distribuição de pontos
-- [ ] Serialização JSON completa
-- [ ] Testes com cobertura > 90%
-
-**DoD:** Personagem completo criável e serializável
-
-### Sprint 4: Combate & EventBus (2-3 semanas)
-
-- [ ] Classe `CombatTurn` e `CombatResolver` funcionando
-- [ ] EventBus interno com pub/sub pattern
-- [ ] Evento `CombatResolved` com detalhes completos
-- [ ] Integração com spdlog
-- [ ] Exemplos de adapters (SSE, WebSocket)
-
-**DoD:** Combate simples (1v1) completo, logs estruturados emitindo
-
-### Sprint 5: Magia & Refinement (2 semanas)
-
-- [ ] Sistema de magia implementado
-- [ ] 80+ magias no banco de dados
-- [ ] Testes de todas as regras com cobertura > 80%
-- [ ] Documentação técnica completa
-- [ ] Release v0.1.0-mvp
-
-**DoD:** MVP pronto, repositório com release tag, 3 exemplos de integração
-
----
-
-## 9. Critérios de Aceite (DoD Global)
+## 8. Critérios de Aceite (DoD Global)
 
 - ✅ Código compilando sem warnings em `-Wall -Wextra`
 - ✅ Cobertura de testes > 80% (gcov)
@@ -324,7 +271,7 @@ erebus-engine/
 
 ---
 
-## 10. Métricas de Sucesso
+## 9. Métricas de Sucesso
 
 | Métrica | Meta MVP | Meta Longo Prazo |
 |---------|----------|------------------|
@@ -338,7 +285,7 @@ erebus-engine/
 
 ---
 
-## 11. Riscos e Mitigações
+## 10. Riscos e Mitigações
 
 | Risco | Probabilidade | Impacto | Mitigação |
 |-------|---------------|--------|-----------|
@@ -349,7 +296,7 @@ erebus-engine/
 
 ---
 
-## 12. Dependências e Integrações
+## 11. Dependências e Integrações
 
 ### Dependências Internas
 
@@ -372,7 +319,7 @@ erebus-engine/
 
 ---
 
-## 13. Glossário
+## 12. Glossário
 
 | Termo | Definição |
 |-------|-----------|
@@ -386,7 +333,7 @@ erebus-engine/
 
 ---
 
-## 14. Documentação Necessária
+## 13. Documentação Necessária
 
 - [ ] **README.md** - Overview, quickstart, exemplos de uso
 - [ ] **CONTRIBUTING.md** - Guia para colaboradores, setup local, workflow de PR
@@ -397,7 +344,7 @@ erebus-engine/
 
 ---
 
-## 15. Revisões e Aprovações
+## 14. Revisões e Aprovações
 
 | Papel | Nome | Assinatura | Data |
 |------|------|-----------|------|
