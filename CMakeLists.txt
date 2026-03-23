@@ -26,9 +26,20 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # ---------------------------------------------------------------------------
-# Biblioteca principal (src/ ainda vazia — preenchida nas próximas sprints)
+# Biblioteca principal
 # ---------------------------------------------------------------------------
-add_library(erebus_core INTERFACE)
+add_library(erebus_core STATIC
+    src/domain/dice.cpp
+    src/handlers/dice_handler.cpp
+    src/services/dice_service.cpp
+    src/adapters/event_bus_impl.cpp
+)
+
+target_include_directories(erebus_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_compile_features(erebus_core PUBLIC cxx_std_17)
 
 # ---------------------------------------------------------------------------
 # Testes
