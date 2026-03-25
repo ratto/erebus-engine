@@ -25,10 +25,34 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+FetchContent_Declare(
+  nlohmann_json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
+FetchContent_MakeAvailable(nlohmann_json)
+
 # ---------------------------------------------------------------------------
-# Biblioteca principal (src/ ainda vazia — preenchida nas próximas sprints)
+# Biblioteca principal
 # ---------------------------------------------------------------------------
-add_library(erebus_core INTERFACE)
+add_library(erebus_core STATIC
+    src/domain/dice.cpp
+    src/handlers/dice_handler.cpp
+    src/services/dice_service.cpp
+    src/adapters/event_bus_impl.cpp
+)
+
+target_include_directories(erebus_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_compile_features(erebus_core PUBLIC cxx_std_17)
+
+# ---------------------------------------------------------------------------
+# Executável principal
+# ---------------------------------------------------------------------------
+add_executable(erebus src/main.cpp)
+target_link_libraries(erebus PRIVATE erebus_core nlohmann_json::nlohmann_json)
+target_compile_features(erebus PRIVATE cxx_std_17)
 
 # ---------------------------------------------------------------------------
 # Testes
