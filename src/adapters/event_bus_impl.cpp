@@ -21,7 +21,7 @@ const char* diceTypeName(erebus::domain::DiceType type) {
 namespace erebus::adapters {
 
 void EventBusImpl::publish(const erebus::events::DiceRolledEvent& event) {
-    std::cout
+    std::cerr
         << "[DiceRolled] "
         << diceTypeName(event.diceType)
         << " roll " << event.rollIndex << "/" << event.totalCount
