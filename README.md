@@ -186,16 +186,16 @@ O engine está em desenvolvimento ativo. O que já existe:
 
 **Atributos do Sistema Daemon** (quando implementados):
 
-| Código | Atributo            |
-| ------ | ------------------- |
-| `FR`   | Força               |
-| `DEX`  | Destreza            |
-| `AGI`  | Agilidade           |
-| `CON`  | Constituição        |
-| `INT`  | Inteligência        |
-| `WILL` | Força de Vontade    |
-| `PER`  | Percepção           |
-| `CAR`  | Carisma             |
+| Código  | Atributo           | Descrição                                              |
+| ------- | ------------------ | ------------------------------------------------------ |
+| `FR`    | Força              | Capacidade muscular bruta e força física               |
+| `DEX`   | Destreza           | Coordenação motora, precisão e habilidade manual       |
+| `AGI`   | Agilidade          | Velocidade de reação, equilíbrio e mobilidade          |
+| `CON`   | Constituição       | Resistência física, vitalidade e saúde geral           |
+| `INT`   | Inteligência       | Raciocínio, memória, aprendizado e resolução de problemas |
+| `WILL`  | Força de Vontade   | Determinação, concentração e resistência mental        |
+| `CAR`   | Carisma            | Personalidade, poder de persuasão e liderança natural  |
+| `PER`   | Percepção          | Acuidade sensorial, atenção aos detalhes e intuição    |
 
 Fórmula de capacidade física: `Y = K × 2^(Atributo / 6)` — porque nada diz "RPG brasileiro hardcore" como uma exponencial de base 2.
 

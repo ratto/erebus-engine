@@ -78,7 +78,7 @@ Fornecer uma implementação confiável, testada e reutilizável das mecânicas 
 **Descrição:** O Core deve implementar o sistema de atributos do Sistema Daemon com seus modificadores e derivações.
 
 **Critérios de Aceite:**
-- [ ] Classe `Attribute` com pelo menos 8 atributos principais (FOR, AGI, CON, INT, PRE, VON, PHI, ELE)
+- [ ] Classe `Attribute` com pelo menos 8 atributos principais (FR, DEX, AGI, CON, INT, WILL, CAR, PER)
 - [ ] Método para calcular capacidade física via fórmula exponencial: `Y = K × 2^(Atributo / 6)`
 - [ ] Suporte a atributos secundários (DEF, RES, SAC, movimento)
 - [ ] Serialização/Desserialização JSON completa
@@ -324,7 +324,7 @@ erebus-engine/
 | Termo | Definição |
 |-------|-----------|
 | **Sistema Daemon** | RPG brasileiro criado por Marcelo Del Debio, com mecânicas de atributos exponenciais e perícias flexíveis |
-| **Atributo** | Característica fundamental do personagem (FOR, AGI, CON, INT, PRE, VON, PHI, ELE) |
+| **Atributo** | Característica fundamental do personagem (FR, DEX, AGI, CON, INT, WILL, CAR, PER) |
 | **Perícia** | Habilidade treinável que modifica testes com base em atributo-base e modificadores |
 | **EventBus** | Sistema interno de pub/sub para emissão de eventos estruturados |
 | **Hexagonal Architecture** | Padrão de arquitetura que separa domain (núcleo) de adapters (integrações) |
