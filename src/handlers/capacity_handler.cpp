@@ -17,10 +17,12 @@ erebus::domain::CapacityKResult CapacityHandler::calculateK(double y) {
 }
 
 erebus::domain::DamageBonusResult CapacityHandler::calculateDamageBonus(int fr) {
-    // Floor division: (fr - 14) / 2, minimum 0.
-    // Matches the Sistema Daemon reference table:
-    //   FR 14-15 -> 0, FR 16-17 -> 1, FR 18-19 -> 2, FR 20-21 -> 3, etc.
-    int bonus = (fr >= 14) ? (fr - 14) / 2 : 0;
+    // ceil((fr - 13.5) / 2.0), minimum 0.
+    // Sistema Daemon corrected formula:
+    //   FR 14    -> ceil(0.25)  = 1
+    //   FR 15-16 -> ceil(0.75–1.25) = 1–2, etc.
+    //   FR <= 13 -> 0 (minimum)
+    int bonus = std::max(0, static_cast<int>(std::ceil((fr - 13.5) / 2.0)));
     return { bonus };
 }
 

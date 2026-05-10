@@ -56,44 +56,50 @@ TEST_F(CapacityHandlerTest, CalculateK_PositiveY_ReturnsPositiveK) {
 // calculateDamageBonus
 // ---------------------------------------------------------------------------
 
-TEST_F(CapacityHandlerTest, DamageBonus_FR14_Returns0) {
+TEST_F(CapacityHandlerTest, DamageBonus_FR14_Returns1) {
+    // ceil((14 - 13.5) / 2.0) = ceil(0.25) = 1
     auto result = handler.calculateDamageBonus(14);
-    EXPECT_EQ(result.damageBonus, 0);
+    EXPECT_EQ(result.damageBonus, 1);
 }
 
-TEST_F(CapacityHandlerTest, DamageBonus_FR15_Returns0) {
+TEST_F(CapacityHandlerTest, DamageBonus_FR15_Returns1) {
+    // ceil((15 - 13.5) / 2.0) = ceil(0.75) = 1
     auto result = handler.calculateDamageBonus(15);
-    EXPECT_EQ(result.damageBonus, 0);
+    EXPECT_EQ(result.damageBonus, 1);
 }
 
-TEST_F(CapacityHandlerTest, DamageBonus_FR16_Returns1) {
+TEST_F(CapacityHandlerTest, DamageBonus_FR16_Returns2) {
+    // ceil((16 - 13.5) / 2.0) = ceil(1.25) = 2
     auto result = handler.calculateDamageBonus(16);
-    EXPECT_EQ(result.damageBonus, 1);
-}
-
-TEST_F(CapacityHandlerTest, DamageBonus_FR17_Returns1) {
-    auto result = handler.calculateDamageBonus(17);
-    EXPECT_EQ(result.damageBonus, 1);
-}
-
-TEST_F(CapacityHandlerTest, DamageBonus_FR18_Returns2) {
-    auto result = handler.calculateDamageBonus(18);
     EXPECT_EQ(result.damageBonus, 2);
 }
 
-TEST_F(CapacityHandlerTest, DamageBonus_FR20_Returns3) {
-    auto result = handler.calculateDamageBonus(20);
+TEST_F(CapacityHandlerTest, DamageBonus_FR17_Returns2) {
+    // ceil((17 - 13.5) / 2.0) = ceil(1.75) = 2
+    auto result = handler.calculateDamageBonus(17);
+    EXPECT_EQ(result.damageBonus, 2);
+}
+
+TEST_F(CapacityHandlerTest, DamageBonus_FR18_Returns3) {
+    // ceil((18 - 13.5) / 2.0) = ceil(2.25) = 3
+    auto result = handler.calculateDamageBonus(18);
     EXPECT_EQ(result.damageBonus, 3);
 }
 
+TEST_F(CapacityHandlerTest, DamageBonus_FR20_Returns4) {
+    // ceil((20 - 13.5) / 2.0) = ceil(3.25) = 4
+    auto result = handler.calculateDamageBonus(20);
+    EXPECT_EQ(result.damageBonus, 4);
+}
+
 TEST_F(CapacityHandlerTest, DamageBonus_FR1_Returns0) {
-    // FR < 14 -> bonus = 0 (minimum)
+    // max(0, ceil((1 - 13.5) / 2.0)) = max(0, ceil(-6.25)) = max(0, -6) = 0
     auto result = handler.calculateDamageBonus(1);
     EXPECT_EQ(result.damageBonus, 0);
 }
 
 TEST_F(CapacityHandlerTest, DamageBonus_FR13_Returns0) {
-    // FR < 14 -> bonus = 0
+    // max(0, ceil((13 - 13.5) / 2.0)) = max(0, ceil(-0.25)) = max(0, 0) = 0
     auto result = handler.calculateDamageBonus(13);
     EXPECT_EQ(result.damageBonus, 0);
 }
