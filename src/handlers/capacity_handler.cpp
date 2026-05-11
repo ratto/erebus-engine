@@ -1,4 +1,5 @@
 #include "handlers/capacity_handler.hpp"
+#include <algorithm>
 #include <cmath>
 
 namespace erebus::handlers {
