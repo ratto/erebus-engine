@@ -162,9 +162,62 @@ echo '{"command": "dice.roll", "diceType": "d6", "count": 3}' | ./build/erebus
 | `d12`  | 1–12      | Raramente usado, profundamente amado |
 | `d100` | 0–99      | Rola de 0 a 99. O Sistema Daemon é assim. |
 
+### Calcular capacidade física (Y)
+
+```bash
+echo '{"command": "capacity.calculate_y", "k": 5.0, "attribute": 12}' | ./build/erebus
+```
+
+```json
+{"y": 17.31}
+```
+
+### Calcular K a partir de Y
+
+```bash
+echo '{"command": "capacity.calculate_k", "y": 17.31}' | ./build/erebus
+```
+
+```json
+{"k": 5.0}
+```
+
+### Calcular bônus de dano
+
+```bash
+echo '{"command": "capacity.damage_bonus", "fr": 16}' | ./build/erebus
+```
+
+```json
+{"damageBonus": 1}
+```
+
+> A fórmula é `ceil((FR − 13.5) / 2)`, mínimo 0. FR ≤ 13 retorna 0.
+
+### Validar perícia de combate
+
+```bash
+echo '{
+  "command": "combat_skill.validate",
+  "skillType": "melee",
+  "attackBase": 10,
+  "defenseBase": 10,
+  "pointsAllocated": 5,
+  "attackPoints": 3,
+  "defensePoints": 2,
+  "isDefault": false
+}' | ./build/erebus
+```
+
+```json
+{"valid": true, "attackValue": 13, "defenseValue": 12, "errors": []}
+```
+
+**Tipos de perícia suportados:** `melee`, `ranged`, `shield`
+
 ---
 
-## 🎲 Domínio Implementado (MVP)
+## 🎲 Domínio Implementado (Sprint 3)
 
 O engine está em desenvolvimento ativo. O que já existe:
 
@@ -172,7 +225,17 @@ O engine está em desenvolvimento ativo. O que já existe:
 - Rolagem de qualquer tipo de dado (d3 a d100)
 - Múltiplos dados em uma chamada (`count > 1`)
 - Geração determinística via Mersenne Twister (seed configurável para testes)
-- Eventos emitidos para cada dado individualmente
+- Eventos emitidos para cada dado individualmente via EventBus
+
+### ✅ Sistema de Capacidade Física
+- Cálculo de Y (capacidade física) via fórmula `Y = K × 2^(Atributo / 6)`
+- Cálculo inverso de K a partir de Y e atributo
+- Cálculo de bônus de dano baseado em FR: `ceil((FR - 13.5) / 2)`, mínimo 0
+
+### ✅ Validação de Perícias de Combate
+- Validação de distribuição de pontos em perícias de combate (melee, ranged, shield)
+- Regras de ataque/defesa para cada tipo de perícia
+- Perícia padrão "Briga" com valores mínimos garantidos
 
 ### ⏳ Planejado (próximas iterações)
 
@@ -203,7 +266,7 @@ Fórmula de capacidade física: `Y = K × 2^(Atributo / 6)` — porque nada diz 
 
 ## 🧪 Testes
 
-O projeto usa **Google Test** com 21 testes unitários cobrindo o subsistema de dados completo. Cada teste é uma runa gravada a fio de espada no mármore da confiabilidade.
+O projeto usa **Google Test** com 47 testes unitários cobrindo os subsistemas de dados, capacidade física e perícias de combate. Cada teste é uma runa gravada a fio de espada no mármore da confiabilidade.
 
 ```bash
 # Rodar todos os testes
@@ -218,21 +281,25 @@ ctest --test-dir build --output-on-failure
 ```
 tests/
 ├── unit/
-│   ├── dice_test.cpp      # 21 testes: domínio, handlers, services, eventos
-│   └── smoke_test.cpp     # Smoke test de sanidade
+│   ├── dice_test.cpp               # 21 testes: domínio, handlers, services, eventos
+│   ├── capacity_handler_test.cpp   # 14 testes: calcular Y, K e bônus de dano
+│   ├── combat_skill_handler_test.cpp # 11 testes: melee, ranged, shield, Briga
+│   └── smoke_test.cpp              # Smoke test de sanidade
 └── integration/
-    └── smoke_test.cpp     # Integração ponta a ponta (expandindo)
+    └── smoke_test.cpp              # Integração ponta a ponta (expandindo)
 ```
 
 ### O que é testado
 
-| Suite                       | Testes | O que valida                                    |
-| --------------------------- | ------ | ----------------------------------------------- |
-| `DiceRoll::total()`         | 3      | Soma correta de vetores de resultados            |
-| `DiceHandler ranges`        | 7      | Min/max de cada tipo de dado (500 iterações)     |
-| `DiceService count`         | 3      | Contagem padrão, múltiplos, consistência         |
-| `DiceService events`        | 5      | Publicação, índices, totalCount, tipo e valores  |
-| `DiceService validation`    | 3      | Rejeição de count ≤ 0, sem eventos em falha      |
+| Suite                          | Testes | O que valida                                      |
+| ------------------------------ | ------ | ------------------------------------------------- |
+| `DiceRoll::total()`            | 3      | Soma correta de vetores de resultados             |
+| `DiceHandler ranges`           | 7      | Min/max de cada tipo de dado (500 iterações)      |
+| `DiceService count`            | 3      | Contagem padrão, múltiplos, consistência          |
+| `DiceService events`           | 5      | Publicação, índices, totalCount, tipo e valores   |
+| `DiceService validation`       | 3      | Rejeição de count ≤ 0, sem eventos em falha       |
+| `CapacityHandler`              | 14     | Fórmula Y, inverso K, bônus de dano por FR        |
+| `CombatSkillHandler`           | 10     | Melee/ranged/shield válidos, Briga padrão, erros  |
 
 **Test double `SpyEventBus`:** implementa `IEventBus` e captura eventos publicados para asserção. Sem mocks mágicos que mentem — só injeção de dependência honesta.
 

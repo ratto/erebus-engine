@@ -79,10 +79,14 @@ Fornecer uma implementação confiável, testada e reutilizável das mecânicas 
 
 **Critérios de Aceite:**
 - [ ] Classe `Attribute` com pelo menos 8 atributos principais (FR, DEX, AGI, CON, INT, WILL, CAR, PER)
-- [ ] Método para calcular capacidade física via fórmula exponencial: `Y = K × 2^(Atributo / 6)`
+- [x] Cálculo de capacidade física via fórmula exponencial: `Y = K × 2^(Atributo / 6)` — implementado em `CapacityHandler` (14 testes)
+- [x] Cálculo inverso de K a partir de Y — implementado em `CapacityHandler`
+- [x] Cálculo de bônus de dano baseado em FR: `ceil((FR − 13.5) / 2)`, mínimo 0 — implementado em `CapacityHandler`
 - [ ] Suporte a atributos secundários (DEF, RES, SAC, movimento)
 - [ ] Serialização/Desserialização JSON completa
 - [ ] Testes unitários com cobertura > 90%
+
+**Comandos CLI disponíveis:** `capacity.calculate_y`, `capacity.calculate_k`, `capacity.damage_bonus`
 
 **Requisitos Técnicos:**
 - Usar `nlohmann/json` para serialização
@@ -135,13 +139,17 @@ Fornecer uma implementação confiável, testada e reutilizável das mecânicas 
 **Descrição:** O Core deve implementar resolução de turnos de combate segundo as regras do Sistema Daemon.
 
 **Critérios de Aceite:**
+- [x] Validação de distribuição de pontos em perícias de combate (melee, ranged, shield) — implementado em `CombatSkillHandler` (10 testes)
+- [x] Regras de ataque/defesa para cada tipo de perícia — implementado em `CombatSkillHandler`
+- [x] Perícia padrão "Briga" com valores mínimos garantidos — implementado em `CombatSkillHandler`
 - [ ] Classe `CombatTurn` com propriedades: iniciativa, ação, defesa, resultado
 - [ ] Método `resolveCombat()` que aplica regras de ataque, defesa, dano
 - [ ] Suporte a tipos de ação (Attack, Defend, Cast, Dodge, Retreat)
 - [ ] Cálculo de iniciativa baseado em atributos
-- [ ] Cálculo de dano com influência de atributos
 - [ ] Evento `CombatResolved` com detalhes da resolução
 - [ ] Suporte a combate entre múltiplos combatentes
+
+**Comandos CLI disponíveis:** `combat_skill.validate`
 
 **Requisitos Técnicos:**
 - Interface `ICombatEngine` em `erebus::ports`
@@ -243,8 +251,8 @@ erebus-engine/
 
 - **Linguagem:** C++17 (ou superior)
 - **Build System:** CMake 3.20+
-- **Testes:** Google Test (gtest)
-- **Logging:** spdlog (header-only)
+- **Testes:** Google Test (gtest) + Google Mock
+- **Logging:** stderr direto via EventBusImpl (sem dependência de spdlog)
 - **JSON:** nlohmann/json
 - **CI/CD:** GitHub Actions
 - **Distribuição:** Git submodule
@@ -266,7 +274,7 @@ erebus-engine/
 - ✅ PR review por pelo menos um desenvolvedor
 - ✅ Todos os testes passando no CI
 - ✅ Documentação técnica atualizada (README, exemplos)
-- ✅ Sem dependências externas desnecessárias (apenas gtest, spdlog, nlohmann/json)
+- ✅ Sem dependências externas desnecessárias (apenas gtest/gmock, nlohmann/json)
 - ✅ Builds multiplataforma (Linux, Windows, macOS, WASM) verdes
 
 ---
@@ -354,5 +362,5 @@ erebus-engine/
 
 ---
 
-**Próximo Review:** 30/04/2026  
-**Última Atualização:** 16/03/2026
+**Próximo Review:** a definir  
+**Última Atualização:** 16/05/2026
