@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 #include "services/dice_service.h"
 #include "handlers/combat_skill_handler.h"
+#include "handlers/capacity_handler.hpp"
 #include "adapters/event_bus_impl.h"
 #include "domain/dice.h"
 #include "domain/combat_skill.h"
@@ -65,6 +66,40 @@ json handleCombatSkillValidate(const json& input) {
     return output;
 }
 
+json handleCapacityCalculateY(const json& input) {
+    double k        = input.at("k").get<double>();
+    int    attribute = input.at("attribute").get<int>();
+
+    erebus::handlers::CapacityHandler handler;
+    auto result = handler.calculateY(k, attribute);
+
+    json output;
+    output["y"] = result.y;
+    return output;
+}
+
+json handleCapacityCalculateK(const json& input) {
+    double y = input.at("y").get<double>();
+
+    erebus::handlers::CapacityHandler handler;
+    auto result = handler.calculateK(y);
+
+    json output;
+    output["k"] = result.k;
+    return output;
+}
+
+json handleCapacityDamageBonus(const json& input) {
+    int fr = input.at("fr").get<int>();
+
+    erebus::handlers::CapacityHandler handler;
+    auto result = handler.calculateDamageBonus(fr);
+
+    json output;
+    output["damageBonus"] = result.damageBonus;
+    return output;
+}
+
 } // anonymous namespace
 
 int main() {
@@ -78,6 +113,12 @@ int main() {
             std::cout << handleDiceRoll(input).dump() << std::endl;
         } else if (command == "combat_skill.validate") {
             std::cout << handleCombatSkillValidate(input).dump() << std::endl;
+        } else if (command == "capacity.calculate_y") {
+            std::cout << handleCapacityCalculateY(input).dump() << std::endl;
+        } else if (command == "capacity.calculate_k") {
+            std::cout << handleCapacityCalculateK(input).dump() << std::endl;
+        } else if (command == "capacity.damage_bonus") {
+            std::cout << handleCapacityDamageBonus(input).dump() << std::endl;
         } else {
             throw std::invalid_argument("unknown command: " + command);
         }

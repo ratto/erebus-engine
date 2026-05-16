@@ -42,7 +42,9 @@ add_library(erebus_core STATIC
     src/domain/dice.cpp
     src/handlers/dice_handler.cpp
     src/handlers/combat_skill_handler.cpp
+    src/handlers/capacity_handler.cpp
     src/services/dice_service.cpp
+    src/services/capacity_service.cpp
     src/adapters/event_bus_impl.cpp
 )
 
